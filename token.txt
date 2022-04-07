@@ -1,1 +1,2 @@
-OTUyOTA4MjI3ODcwMzMwOTMz.Yi828Q.b7EYIOnFH7MFnVfhFTa4CWybNUQ
+Сюда записываете токен бота, который можно получить в разделе разработчиков в дискорде 
+https://discord.com/developers/applications/952908227870330933/oauth2/general
