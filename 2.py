@@ -3,7 +3,7 @@ from discord.ext import commands
 from discord.utils import get
 
 bot = commands.Bot(command_prefix="!", help_command=None, intents=discord.Intents.all())
-
+#Здесь можно поставить любой удобный для вас префик. Для меня например удобный (!) Изменять комнаду command_prefix="Нужный вам префикс"
 
 @bot.event
 async def on_ready():
@@ -21,19 +21,19 @@ async def on_message(message):
     censored_words = ["дурак", "дура", "придурок"]
 
     if msg in greeting_words:
-        await message.channel.send(f"{message.author.name}, приветствую тебя!")
+        await message.channel.send(f"{message.author.name}, Приветик!")
 
     # Filter censored words
     for bad_content in msg.split(" "):
         if bad_content in censored_words:
             await message.delete()
-            await message.channel.send(f"{message.author.mention}, ай-ай-ай... Плохо, плохо, так нельзя!")
+            await message.channel.send(f"{message.author.mention}, Нельзя так!")
 
 
 @bot.event
 async def on_member_join(member):
-    channel = bot.get_channel(858448768981401653) # Передайте ID канала
-    role = discord.utils.get(member.guild.roles, id=858461582275510302) # Передайте ID роли
+    channel = bot.get_channel() # Передайте ID канала
+    role = discord.utils.get(member.guild.roles, id=) # Передайте ID роли
 
     await member.add_roles(role)
 
@@ -52,14 +52,14 @@ async def on_command_error(ctx, error):
         ))
 
 
-@bot.command(name="очистить", brief="Очистить чат от сообщений, по умолчанию 10 сообщений", usage="clear <amount=10>")
-async def clear(ctx, amount: int=10):
+@bot.command(name="clear", brief="Очистить чат от сообщений, по умолчанию 15 сообщений", usage="clear <amount=10>")
+async def clear(ctx, amount: int=15):
     await ctx.channel.purge(limit=amount)
     await ctx.send(f"Was deleted {amount} messages...")
 
 
 
-@bot.command(name="кик", brief="Выгнать пользователя с сервера", usage="kick <@user> <reason=None>")
+@bot.command(name="kick", brief="Выгнать пользователя с сервера", usage="kick <@user> <reason=None>")
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member, *, reason=None):
     await ctx.message.delete(delay=1) # Если желаете удалять сообщение после отправки с задержкой
@@ -69,7 +69,7 @@ async def kick(ctx, member: discord.Member, *, reason=None):
     await member.kick(reason=reason)
 
 
-@bot.command(name="бан", brief="Забанить пользователя на сервере", usage="ban <@user> <reason=None>")
+@bot.command(name="ban", brief="Забанить пользователя на сервере", usage="ban <@user> <reason=None>")
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
     await member.send(f"You was banned on server") # Отправить личное сообщение пользователю
@@ -77,7 +77,7 @@ async def ban(ctx, member: discord.Member, *, reason=None):
     await member.ban(reason=reason)
 
 
-@bot.command(name="разбанить", brief="Разбанить пользователя на сервере", usage="unban <user_id>")
+@bot.command(name="unban", brief="Разбанить пользователя на сервере", usage="unban <user_id>")
 @commands.has_permissions(ban_members=True)
 async def unban(ctx, user_id: int):
     user = await bot.fetch_user(user_id)
@@ -103,8 +103,8 @@ async def help(ctx):
 
     await ctx.send(embed=embed)
 
-
-@bot.command(name="мут", brief="Запретить пользователю писать ", usage="mute <member>")
+#У вас на сервере должна быть создана роль под названием mute
+@bot.command(name="mute", brief="Запретить пользователю писать ", usage="mute <member>")
 @commands.has_permissions(mute_members=True)
 async def mute_user(ctx, member: discord.Member):
     mute_role = discord.utils.get(ctx.message.guild.roles, name="mute")
@@ -139,7 +139,7 @@ async def leave_from_channel(ctx):
         voice = await channel.disconnect()
         await ctx.send(f"Bot was connected to the voice channel")
 
-
+#Здесь обязательно нужно в файл token.txt кинуть токен бота 
 token = open ('token.txt', 'r').readline()
 
 bot.run( token )
